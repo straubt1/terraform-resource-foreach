@@ -9,7 +9,7 @@ locals {
     for lb in var.network_lbs : {
       # key is used for the resource address and resource name, but could be different if required
       # key MUST be unique for each instance of the resource!
-      key = format("%s-%s-nlb", var.namespace, lb.lbname)
+      key = format("%s-%s-nlb", var.namespace, lb.lb_name)
 
       # dynamic settings for the resource
       subnet_ids = lb.subnet_ids
@@ -22,7 +22,7 @@ locals {
       for l in lb.listeners : {
         # key is used for the resource address and resource name, but could be different if required
         # key MUST be unique for each instance of the resource!
-        key = format("%s-%s-%s", var.namespace, lb.lbname, l.name)
+        key = format("%s-%s-%s", var.namespace, lb.lb_name, l.name)
 
         # dynamic settings for the resource
         port                  = l.targetPort
@@ -39,11 +39,11 @@ locals {
       for l in lb.listeners : {
         # key is used for the resource address and resource name, but could be different if required
         # key MUST be unique for each instance of the resource!
-        key = format("%s-%s-%s", var.namespace, lb.lbname, l.name)
+        key = format("%s-%s-%s", var.namespace, lb.lb_name, l.name)
 
         # these keys must be exactly the same as used in the LB and TG resources above, this allows for clean lookup at "apply" time 
-        lb_key = format("%s-%s-nlb", var.namespace, lb.lbname)
-        tg_key = format("%s-%s-%s", var.namespace, lb.lbname, l.name)
+        lb_key = format("%s-%s-nlb", var.namespace, lb.lb_name)
+        tg_key = format("%s-%s-%s", var.namespace, lb.lb_name, l.name)
 
         # dynamic settings for the resource 
         port     = l.listenerPort
